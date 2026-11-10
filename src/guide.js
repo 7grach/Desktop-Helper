@@ -89,9 +89,18 @@ async function capture(overlay, width = SHOT_W) {
   const fade = ok && process.platform === 'linux';
   if (ok && !fade) { overlay.setContentProtection(true); await new Promise((r) => setTimeout(r, 60)); }
   if (fade) { overlay.setOpacity(0); await new Promise((r) => setTimeout(r, 90)); }
-  let sources;
+  let src;
   try {
-    sources = await desktopCapturer.getSources({ types: ['screen'], thumbnailSize: { width: w, height: h } });
+    // macOS может вернуть пустую миниатюру, пока запускается захват.
+    // Пустой кадр сам по себе не означает отказ в системном разрешении.
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const sources = await desktopCapturer.getSources({ types: ['screen'], thumbnailSize: { width: w, height: h } });
+      src = sources.find((s) => String(s.display_id) === String(display.id));
+      // Не подменяем основной экран соседним: выделение относится к основному.
+      if (!src && sources.length === 1 && !sources[0].display_id) src = sources[0];
+      if (src && !src.thumbnail.isEmpty()) break;
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 180));
+    }
   } finally {
     if (fade) overlay.setOpacity(1);
     if (ok && !overlay.isDestroyed()) {
@@ -100,7 +109,6 @@ async function capture(overlay, width = SHOT_W) {
       overlay.moveTop();
     }
   }
-  const src = sources.find((s) => String(s.display_id) === String(display.id)) || sources[0];
   if (!src || src.thumbnail.isEmpty()) throw Object.assign(new Error('no screenshot'), { code: 'noShot' });
   const size = src.thumbnail.getSize();
   return { image: src.thumbnail, w: size.width, h: size.height, display };

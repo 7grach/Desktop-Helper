@@ -564,6 +564,19 @@ function showStep(res, repeat = false) {
   if (repeat) void 0;
 }
 
+function screenErrorActions(result) {
+  if (settings.platform !== 'darwin' || !['screen-permission', 'screen-capture'].includes(result.code)) return [];
+  const actions = [];
+  if (result.code === 'screen-permission') actions.push([T('screen.settings'), async () => {
+    try {
+      if (await api.openScreenSettings()) return;
+    } catch { /* покажем ручной путь */ }
+    say(T('screen.manual'), 15000, { guide: true });
+  }]);
+  actions.push([T('screen.restart'), () => api.restart()]);
+  return actions;
+}
+
 async function look(mode) {
   if (guide.busy) return;
   guide.busy = true;
@@ -580,7 +593,7 @@ async function look(mode) {
   guide.busy = false;
   if (!guide.active) return;
   if (res.error) {
-    say(res.error, Infinity, { actions: [[T('g.retry'), () => look(mode), true], [T('g.stop'), () => endGuide(true)]], guide: true });
+    say(res.error, Infinity, { actions: [...screenErrorActions(res), [T('g.retry'), () => look(mode), true], [T('g.stop'), () => endGuide(true)]], guide: true });
     speak(res.error);
     return;
   }
@@ -826,7 +839,6 @@ const goalOf = (label) => label.replace(/^[^\p{L}\p{N}]+/u, '').trim();
 // Главное окно: «Я запутался», голос и текст. Готовые задачи живут в «Уроках».
 function renderHelp() {
   $('#mic-state').classList.add('hidden');
-  document.querySelector('.extras [data-act="chat"]').classList.toggle('hidden', !settings.aiReady);
   initMic();
 }
 
@@ -1002,6 +1014,7 @@ function placePanel(panel) {
 function closePanels() {
   // настройки закрыли без «Сохранить»: возвращаем, как было (размер кота и масштаб показываются сразу при выборе)
   if (openPanel === 'settings') {
+    $('#settings-form').apiKey.value = '';
     catEl.style.setProperty('--k', settings.size || 1);
     applyWindowScale(settings.uiScale);
   }
@@ -1036,6 +1049,7 @@ window.addEventListener('resize',schedulePanelLayout);
 
 // ---------- Чат ----------
 const log = $('#chat-log');
+$('#chat-connect').addEventListener('click', () => showPanel('settings'));
 function addMsg(cls, text) {
   const d = document.createElement('div');
   d.className = `msg ${cls}`;
@@ -1209,6 +1223,7 @@ function applySettings() {
   I18N.setLang(settings.lang);
   I18N.apply(document);
   refreshPushikIcons();
+  $('#chat-connect').classList.toggle('hidden', !!settings.aiReady);
   applyWindowScale(settings.uiScale);
   catEl.style.setProperty('--k', size());
   sprite.setColor(settings.catColor, SHEETS);
@@ -1228,7 +1243,7 @@ function applyWindowScale(value) {
   });
 }
 
-// В настройках только то, что понятно новичку. ИИ, ключи и голосовые сервисы задаёт команда в team.json.
+// Сохранённый ключ не возвращается в окно: пустое поле оставляет его прежним.
 const TEXT_FIELDS = ['userName', 'catColor', 'size', 'uiScale'];
 const CHECK_FIELDS = ['speak', 'sound', 'autostart'];
 
@@ -1237,6 +1252,11 @@ async function fillSettings() {
   for (const k of TEXT_FIELDS) form[k].value = settings[k] ?? '';
   form.uiScale.value = settings.uiScale || 1;
   for (const k of CHECK_FIELDS) form[k].checked = !!settings[k];
+  form.provider.value = settings.hasApiKey || settings.provider === 'ollama' ? settings.provider : 'groq';
+  form.provider.querySelector('[value="openai"]').disabled = settings.provider !== 'openai';
+  form.apiKey.value = '';
+  $('#api-key-status').textContent = T(settings.hasApiKey ? 'set.keySaved' : 'set.keyHint');
+  $('#settings-error').classList.add('hidden');
   applyWindowScale(settings.uiScale);
 }
 form.size.addEventListener('input', () => { catEl.style.setProperty('--k', form.size.value); });
@@ -1245,15 +1265,31 @@ form.uiScale.addEventListener('input', () => applyWindowScale(form.uiScale.value
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = e.target;
-  settings = await api.saveSettings({
-    userName: f.userName.value.trim(),
-    catColor: f.catColor.value,
-    size: Number(f.size.value) || 1,
-    uiScale: Math.min(1.4, Math.max(0.7, Number(f.uiScale.value) || 1)),
-    speak: f.speak.checked,
-    sound: f.sound.checked,
-    autostart: f.autostart.checked,
-  });
+  const apiKey = f.apiKey.value.trim();
+  const provider = f.provider.value;
+  if (provider !== 'ollama' && !apiKey && settings.hasApiKey && provider !== settings.provider) {
+    $('#settings-error').textContent = T('set.keyRequired');
+    $('#settings-error').classList.remove('hidden');
+    f.apiKey.focus();
+    return;
+  }
+  try {
+    settings = await api.saveSettings({
+      ...(apiKey ? { provider, apiKey } : provider === 'ollama' ? { provider } : {}),
+      userName: f.userName.value.trim(),
+      catColor: f.catColor.value,
+      size: Number(f.size.value) || 1,
+      uiScale: Math.min(1.4, Math.max(0.7, Number(f.uiScale.value) || 1)),
+      speak: f.speak.checked,
+      sound: f.sound.checked,
+      autostart: f.autostart.checked,
+    });
+  } catch {
+    $('#settings-error').textContent = T('set.saveError');
+    $('#settings-error').classList.remove('hidden');
+    return;
+  }
+  f.apiKey.value = '';
   applySettings();
   closePanels();
   happy();

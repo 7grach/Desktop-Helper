@@ -38,7 +38,7 @@
     <div class="extras">
       <button data-act="settings" data-i18n-title="menu.settings"></button>
       <button data-act="lessons" data-i18n-title="menu.lessons"></button>
-      <button data-act="chat" data-i18n-title="menu.chat" class="hidden"></button>
+      <button data-act="chat" data-i18n-title="menu.chat"></button>
     </div>
   </section>
 
@@ -60,6 +60,7 @@
       <button class="icon" data-reset data-i18n-title="chat.reset">↺</button>
       <button class="icon" data-close data-i18n-title="close">✕</button></header>
     <div id="chat-log" class="chat-log"></div>
+    <button type="button" id="chat-connect" class="ghost hidden" data-i18n="chat.connect"></button>
     <form id="chat-form" class="row">
       <input id="chat-input" autocomplete="off" data-i18n-ph="chat.ph" />
       <button type="submit" class="primary">➤</button>
@@ -92,6 +93,18 @@
   <section id="panel-settings" class="panel hit hidden">
     <header><b data-i18n="set.title"></b><button class="icon" data-close data-i18n-title="close">✕</button></header>
     <form id="settings-form" class="col">
+      <label><span data-i18n="set.provider"></span>
+        <select name="provider">
+          <option value="groq">Groq</option>
+          <option value="claude">Claude</option>
+          <option value="openrouter">OpenRouter</option>
+          <option value="openai" data-i18n="set.provCustom"></option>
+          <option value="ollama" data-i18n="set.provOllama"></option>
+        </select>
+      </label>
+      <label><span data-i18n="set.key"></span><input name="apiKey" type="password" autocomplete="new-password" spellcheck="false" aria-describedby="api-key-status" /></label>
+      <small id="api-key-status" role="status"></small>
+      <small id="settings-error" role="alert" class="hidden"></small>
       <label><span data-i18n="set.name"></span><input name="userName" data-i18n-ph="set.namePh" /></label>
       <label><span data-i18n="set.color"></span>
         <select name="catColor">

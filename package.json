@@ -5,7 +5,7 @@
   "description": "Кот Пуш: десктопный питомец-помощник, который гуляет по рабочему столу",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "node tools/start.js",
     "dist": "electron-builder",
     "dist:win": "electron-builder --win",
     "dist:mac": "electron-builder --mac",

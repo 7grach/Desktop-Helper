@@ -16,6 +16,8 @@ contextBridge.exposeInMainWorld('pushik', {
   hide: () => ipcRenderer.send('app:hide'),
   simplifyExplanation: (text) => ipcRenderer.invoke('guide:simplify', text),
   guideLook: (req) => ipcRenderer.invoke('guide:look', req),
+  openScreenSettings: () => ipcRenderer.invoke('screen:settings'),
+  restart: () => ipcRenderer.send('app:restart'),
   guideWatch: (masks) => ipcRenderer.send('guide:watch', masks),
   guideUnwatch: () => ipcRenderer.send('guide:unwatch'),
   transcribe: (audio, mime) => ipcRenderer.invoke('stt:transcribe', { audio, mime }),

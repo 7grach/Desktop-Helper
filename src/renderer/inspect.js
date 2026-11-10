@@ -22,7 +22,7 @@
     try{result=await api.guideLook({mode:'inspect',selection:{...rect},history:[],goal:''});}catch{result={error:'Не удалось посмотреть экран. Попробуй ещё раз.'};}
     if(token!==epoch||!active)return;
     catEl.classList.remove('thinking');
-    if(result.error){say(result.error,Infinity,{guide:true,actions:[['Повторить',explain],['Выбрать другое',choose],['Закрыть',stop]]});return;}
+    if(result.error){say(result.error,Infinity,{guide:true,actions:[...screenErrorActions(result),['Повторить',explain],['Выбрать другое',choose],['Закрыть',stop]]});return;}
     ring.classList.add('inspect-highlight');showRing(rect);
     goPoint(rect,()=>{
       if(token!==epoch||!active)return;

@@ -103,8 +103,8 @@ function loadSettings() {
   s.contact = ''; // поле «Кому звонишь» убрано: урок звонка общий, без имени
   // ключ Groq мог прийти под старым именем groqKey: для приложения это обычный apiKey
   if (team.groqKey && !team.apiKey) { team.apiKey = team.groqKey; team.provider = team.provider || 'groq'; }
-  if (s.groqKey && !s.apiKey && (s.provider === 'groq' || !team.apiKey)) { s.apiKey = s.groqKey; s.provider = 'groq'; }
-  if (team.provider || team.apiKey) {
+  if (!s.personalAi && s.groqKey && !s.apiKey && (s.provider === 'groq' || !team.apiKey)) { s.apiKey = s.groqKey; s.provider = 'groq'; }
+  if (!s.personalAi && (team.provider || team.apiKey)) {
     for (const k of TEAM_AI) s[k] = k in team ? team[k] : DEFAULTS[k];
   }
   if (!s.lang) s.lang = app.getLocale().toLowerCase().startsWith('ru') ? 'ru' : 'en';
@@ -113,10 +113,24 @@ function loadSettings() {
 
 function saveSettings(next) {
   const prev = settings;
+  // Пустое поле не стирает ключ. Личный ключ имеет приоритет над team.json и после перезапуска.
+  next = { ...next };
+  if (typeof next.apiKey === 'string' && next.apiKey.trim()) {
+    next.apiKey = next.apiKey.trim();
+    next.personalAi = true;
+  } else {
+    delete next.apiKey;
+  }
+  if (next.provider && next.provider !== settings.provider) {
+    if (next.provider !== 'ollama' && !next.apiKey) throw new Error(t('set.keyRequired'));
+    Object.assign(next, { personalAi: true, aiUrl: '', model: next.provider === 'claude' ? DEFAULTS.model : '', visionModel: '' });
+    next.apiKey = next.apiKey || '';
+    next.groqKey = '';
+  }
   const s = { ...settings, ...next };
   const toDisk = { ...s };
   // командные ключи не копируем в настройки человека
-  for (const [k, v] of Object.entries(team)) if (toDisk[k] === v) delete toDisk[k];
+  for (const [k, v] of Object.entries(team)) if (!s.personalAi && toDisk[k] === v) delete toDisk[k];
   // ключ API и адрес календаря секретные: шифруем средствами системы
   for (const k of SECRETS) {
     if (!(k in toDisk)) continue;
@@ -316,7 +330,7 @@ function createTrayMenu() {
     { label: t('tray.trainer'), click: () => { win.show(); win.webContents.send('open', 'trainer'); } },
     { type: 'separator' },
     { label: t('tray.call'), click: () => { win.showInactive(); win.webContents.send('open', 'call'); } },
-    ...(publicSettings().aiReady ? [{ label: t('tray.chat'), click: () => { win.show(); win.webContents.send('open', 'chat'); } }] : []),
+    { label: t('tray.chat'), click: () => { win.show(); win.webContents.send('open', 'chat'); } },
     { label: t('tray.settings'), click: () => { win.show(); win.webContents.send('open', 'settings'); } },
     { type: 'separator' },
     { label: t('tray.toggle'), click: toggleVisible },
@@ -395,13 +409,28 @@ function screenAccess() {
   if (process.platform !== 'darwin') return 'granted';
   return systemPreferences.getMediaAccessStatus('screen');
 }
+function screenFailure() {
+  const denied = ['denied', 'restricted', 'not-determined'].includes(screenAccess());
+  return {
+    error: t(denied ? 'err.screenPermission' : 'err.screenCapture', { app: app.isPackaged ? app.getName() : 'Electron' }),
+    code: denied ? 'screen-permission' : 'screen-capture',
+  };
+}
+ipcMain.handle('screen:settings', async () => {
+  if (process.platform !== 'darwin') return false;
+  try {
+    await shell.openExternal('x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture');
+    return true;
+  } catch { return false; }
+});
+ipcMain.on('app:restart', () => { app.relaunch(); app.exit(0); });
 ipcMain.handle('guide:look', async (_e, req) => {
   if (settings.provider !== 'ollama' && !settings.apiKey) return { error: t('err.noKey') };
-  if (screenAccess() === 'denied') return { error: t('err.screen') };
+  if (['denied', 'restricted'].includes(screenAccess())) return screenFailure();
   try {
     return await guide.look({ ...req, settings, overlay: win });
   } catch (err) {
-    if (err.code === 'noShot') return { error: t('err.screen') };
+    if (err.code === 'noShot' || ['denied', 'restricted'].includes(screenAccess())) return screenFailure();
     if (err.offline && settings.provider === 'ollama') return { error: t('err.ollama', { url: settings.ollamaUrl }) };
     console.error('guide:look', err.message, err.cause?.code || err.cause?.message || '');
     return { error: t(err.network ? 'err.net' : 'err.look') };
