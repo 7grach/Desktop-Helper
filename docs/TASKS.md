@@ -24,7 +24,7 @@
 
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
-| A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | TODO | — | `tools/test-ai-settings.js`: передать `path.posix` в песочницу; добавить `test`; CI с `npm ci --ignore-scripts`; URL `7grach/Desktop-Helper` |
+| A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | REVIEW | `agent-a/A-1` | `efd2799`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22); URL `7grach/Desktop-Helper`; локально 24/24 pass |
 | A-2 | Продуктовая фича (кандидат: новый урок или защита от мошенников) | BACKLOG | — | Согласовать с пользователем |
 
 ## Агент B
