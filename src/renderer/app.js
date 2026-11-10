@@ -1217,6 +1217,41 @@ api.on('calendar-soon', (e) => {
 });
 api.on('calendar-changed', () => { if (openPanel === 'reminders') renderCalendar(); });
 
+// ---------- Защита от удалённого доступа ----------
+function remoteAppStarted(app) {
+  if (!app) return;
+  if (guide.active) endGuide(false);
+  Sound.bell();
+  showPose('wave', 2500);
+  guide.active = true;
+
+  const yes = () => {
+    const text = T('scam.stop', { app });
+    const tip = T('scam.stopTip', { app });
+    say(text, Infinity, {
+      guide: true, danger: true, explain: tip,
+      actions: [[T('g.ok'), () => { guide.active = false; hideBubble(); }, true]],
+    });
+    speak(`${text} ${tip}`);
+  };
+
+  const no = async () => {
+    const list = [...new Set([...(settings.trustedRemote || []), app])];
+    settings = { ...settings, trustedRemote: list };
+    try { settings = await api.saveSettings({ trustedRemote: list }); } catch { /* запомним хотя бы до перезапуска */ }
+    guide.active = false;
+    say(T('scam.trusted', { app }), 5000);
+  };
+
+  const text = T('scam.ask', { app });
+  say(text, Infinity, {
+    guide: true, danger: true,
+    actions: [[T('scam.yes'), yes, true], [T('scam.no'), no]],
+  });
+  speak(text);
+}
+api.on('remote-app', remoteAppStarted);
+
 // ---------- Настройки ----------
 const form = $('#settings-form');
 function applySettings() {
