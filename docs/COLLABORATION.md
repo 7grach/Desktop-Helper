@@ -38,6 +38,18 @@ npm install
 npm start
 ```
 
+Если у вас нет прав на push в `7grach/Desktop-Helper`, сделайте fork и работайте в нём:
+
+```powershell
+git clone https://github.com/<ваш-логин>/Desktop-Helper.git
+cd Desktop-Helper
+git remote add upstream https://github.com/7grach/Desktop-Helper.git
+git fetch upstream
+git switch -c agent-b/B-1 upstream/develop
+```
+
+PR в этом случае открывается из вашего fork в `7grach/Desktop-Helper:develop`.
+
 Если npm 12 не установил Electron и `electron.exe` отсутствует:
 
 ```powershell
