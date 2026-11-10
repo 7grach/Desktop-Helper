@@ -189,11 +189,7 @@ Electron 33, чистый JavaScript без фреймворков, PowerShell �
 
 ## Участники
 
-Грачев Александр — [@7grach](https://github.com/7grach).
-
-Другие участники текущего репозитория: [@TenQl](https://github.com/TenQl), [@y4r0s](https://github.com/y4r0s).
-
-Авторы исходной версии: [@prettyw1ld](https://github.com/prettyw1ld), [@Jikeman](https://github.com/Jikeman), [@Geonori](https://github.com/Geonori).
+ [@7grach](https://github.com/7grach), [@TenQl](https://github.com/TenQl), [@y4r0s](https://github.com/y4r0s).
 
 ## Лицензия
 
