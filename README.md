@@ -172,6 +172,8 @@ npm test
 node --test tools/test-file-help.js
 node --test tools/test-screen-capture.js
 node --test tools/test-ai-settings.js
+node --test tools/test-home.js
+node --test tools/test-playful.js
 ```
 
 Те же проверки идут в CI на Ubuntu, Windows и macOS (`.github/workflows/test.yml`).
