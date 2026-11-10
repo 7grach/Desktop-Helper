@@ -36,7 +36,7 @@
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
 | B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | DONE | `agent-b/B-1` | PR #1 merged: `8b765fa`; `npm test` 24/24, включая `test-ai-settings` после A-1; `package.json` не тронут |
-| B-2 | Тесты на «Домик навыков» и открытку | BACKLOG | — | `src/renderer/home.js`, `src/renderer/playful.js`, `tools/`; после A-1 |
+| B-2 | Тесты на «Домик навыков» и открытку | REVIEW | `agent-b/B-2` | PR #2, commit `503491e`; `npm test` 43/43 (24 старых + 19 новых); для A: в `AGENTS.md` обновить «24 проверки» → 43 после мержа |
 
 ## Ближайший порядок
 
