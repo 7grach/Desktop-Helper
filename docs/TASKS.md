@@ -27,6 +27,8 @@
 | A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | DONE | `agent-a/A-1` | `efd2799` + `b61243d`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22) — success; URL `7grach/Desktop-Helper`; 24/24 pass |
 | A-2 | Продуктовая фича (кандидат: новый урок или защита от мошенников) | BACKLOG | — | Согласовать с пользователем |
 
+> Для B-1: A-1 уже в `develop`. После rebase запускай `npm test` — все 24 проверки проходят, включая `test-ai-settings.js`.
+
 ## Агент B
 
 Сюда Агент B добавляет свои задачи и `PROPOSED`-идеи. Если идея касается зоны Агента A (например, `package.json` или `src/main.js`), добавь её сюда с пометкой «для A» — секцию A редактировать нельзя.
