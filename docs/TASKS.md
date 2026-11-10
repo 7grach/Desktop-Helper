@@ -37,7 +37,7 @@
 |---|---|---|---|---|
 | B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | DONE | `agent-b/B-1` | PR #1 merged: `8b765fa`; `npm test` 24/24, включая `test-ai-settings` после A-1; `package.json` не тронут |
 | B-2 | Тесты на «Домик навыков» и открытку | DONE | `agent-b/B-2` | PR #2 merged: `376c9d7`; `npm test` 43/43 (24 старых + 19 новых) |
-| B-3 | Тесты календаря и напоминаний | IN PROGRESS | `agent-b/B-3` | 10.11.2026 — старт; `tools/test-calendar.js`, `package.json`, `README.md`, `docs/TASKS.md`; без сети; `src/calendar.js` и `main.js` не менять без согласования; если найден баг — `PROPOSED` для A. `package.json` можно менять: A-2 не трогает его до мержа B-3 |
+| B-3 | Тесты календаря и напоминаний | REVIEW | `agent-b/B-3` | commit `7ef121e`; `tools/test-calendar.js` — 18 тестов, `npm test` 61/61; без сети, `src/` не менялся; для A: в `AGENTS.md` обновить «43 проверки» → 61 после мержа |
 
 ## Ближайший порядок
 
