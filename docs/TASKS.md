@@ -24,7 +24,7 @@
 
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
-| A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | REVIEW | `agent-a/A-1` | `efd2799`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22); URL `7grach/Desktop-Helper`; локально 24/24 pass |
+| A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | DONE | `agent-a/A-1` | `efd2799` + `b61243d`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22) — success; URL `7grach/Desktop-Helper`; 24/24 pass |
 | A-2 | Продуктовая фича (кандидат: новый урок или защита от мошенников) | BACKLOG | — | Согласовать с пользователем |
 
 ## Агент B
