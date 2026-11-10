@@ -94,10 +94,16 @@
 Нужен [Node.js](https://nodejs.org) 18 или новее.
 
 ```bash
-git clone https://github.com/prettyw1ld/Desktop-Helper.git
+git clone https://github.com/7grach/Desktop-Helper.git
 cd Desktop-Helper
 npm install      # заодно скачает офлайн-модель голоса (~40 МБ)
 npm start
+```
+
+Если npm 12 не установил Electron и `electron.exe` отсутствует, докачайте его вручную:
+
+```powershell
+node node_modules\electron\install.js
 ```
 
 На macOS `npm start` открывает приложение через системный механизм запуска. Это позволяет использовать разрешение на запись экрана для Electron при запуске из терминала Visual Studio Code. После открытия приложения команда завершается; Пушик продолжает работать. Для остановки выберите «Выйти из Пушика» в его настройках. После первого разрешения записи экрана полностью перезапустите приложение.
@@ -152,7 +158,17 @@ npm run dist:mac   # macOS
 | `src/renderer/playful.js`, `home.js` | открытка, клубок, домик навыков |
 | `src/renderer/app.js`, `cats.js` | поведение и анимации кота, панели |
 
-Тесты: `node --test tools/test-file-help.js`.
+## Тесты
+
+Тесты запускаются встроенным раннером Node.js, приложение запускать не нужно:
+
+```bash
+node --test tools/test-file-help.js
+node --test tools/test-screen-capture.js
+node --test tools/test-ai-settings.js
+```
+
+На Windows `test-file-help.js` и `test-screen-capture.js` проходят полностью. В `test-ai-settings.js` пока падают 5 проверок из-за POSIX-путей в тестовом харнессе: это известная проблема, её исправляет задача `A-1`.
 
 Интерфейс открывается и в обычном браузере (`src/renderer/index.html`) с ненастоящим рабочим столом для отладки: `?onboarded` пропускает тренировку мышки, `?color=white` меняет окрас.
 
