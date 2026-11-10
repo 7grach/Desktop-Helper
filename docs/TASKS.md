@@ -26,6 +26,7 @@
 |---|---|---|---|---|
 | A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | DONE | `agent-a/A-1` | `efd2799` + `b61243d`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22) — success; URL `7grach/Desktop-Helper`; 24/24 pass |
 | A-2 | Защита от мошенников: детект AnyDesk/TeamViewer/RustDesk и предупреждение кота | DONE | `agent-a/A-2` | PR #4 merged: `bd2b222`; `src/remote-watch.js`, main/preload/app/i18n, `tools/test-remote-watch.js`; `npm test` 66/66; UI проверен в браузере; список тестов в `package.json` объединён |
+| A-3 | Заменить подсказку поля имени на «Ваше имя» (прямая команда пользователя) | REVIEW | `agent-a/A-3` | 10.11.2026; локальная правка `set.namePh`; `npm test` 66/66; коммит и PR пока не созданы |
 | A-4 | README: участники и простое описание без отсылок к хакатону (прямая команда пользователя) | REVIEW | `agent-a/A-4` | 10.11.2026; `133d30c`; draft PR #5; ссылки и разметка проверены, `npm test` 66/66; сохранён исходный живой стиль |
 
 > Для B-1: A-1 уже в `develop`. После rebase запускай `npm test` — все 24 проверки проходят, включая `test-ai-settings.js`.
