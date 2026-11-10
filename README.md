@@ -160,7 +160,13 @@ npm run dist:mac   # macOS
 
 ## Тесты
 
-Тесты запускаются встроенным раннером Node.js, приложение запускать не нужно:
+Все тесты запускаются одной командой, приложение запускать не нужно:
+
+```bash
+npm test
+```
+
+Отдельные наборы можно запускать напрямую:
 
 ```bash
 node --test tools/test-file-help.js
@@ -168,7 +174,7 @@ node --test tools/test-screen-capture.js
 node --test tools/test-ai-settings.js
 ```
 
-На Windows `test-file-help.js` и `test-screen-capture.js` проходят полностью. В `test-ai-settings.js` пока падают 5 проверок из-за POSIX-путей в тестовом харнессе: это известная проблема, её исправляет задача `A-1`.
+Те же проверки идут в CI на Ubuntu, Windows и macOS (`.github/workflows/test.yml`).
 
 Интерфейс открывается и в обычном браузере (`src/renderer/index.html`) с ненастоящим рабочим столом для отладки: `?onboarded` пропускает тренировку мышки, `?color=white` меняет окрас.
 
