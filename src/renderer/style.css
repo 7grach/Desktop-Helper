@@ -1,0 +1,214 @@
+:root {
+  /* Общий шрифт для Mac и Windows: отдельный Segoe UI на Mac отсутствует. */
+  --font-ui: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ink: #1b1d22;
+  --yellow: #ffd43b;
+  --paper: #ffffff;
+  --soft: #fff8dc;
+  --muted: #6b6e76;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; height: 100%; overflow: hidden;
+  background: transparent;
+  font: 14px/1.4 var(--font-ui);
+  color: var(--ink);
+  user-select: none;
+}
+.hidden { display: none !important; }
+button { font: inherit; cursor: pointer; }
+
+/* ---------- Кот ---------- */
+/* Кадры из референса: ходьба боком (пиксели) и поза анфас. */
+.cat {
+  --k: 1;          /* размер кота из настроек */
+  position: absolute; left: 0; top: 0;
+  width: 150px; height: 140px;
+  will-change: transform; z-index: 6;
+  pointer-events: none;   /* мышь ловят только сам кот и облачко */
+}
+.cat > * { pointer-events: auto; }
+.body {
+  position: absolute; inset: 0;
+  transform: scale(calc(var(--k) * var(--s, 1))); transform-origin: 50% 100%;
+  pointer-events: none;
+}
+.sprite {
+  position: absolute; bottom: 0; left: -21px;
+  width: 192px; height: 192px;   /* кадр 64×64, увеличенный в 3 раза */
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+/* мышь ловит невидимая область по размеру кота, а не весь квадратный кадр */
+.hitbox {
+  position: absolute; bottom: 0; left: 15px; width: 120px; height: 100px;
+  pointer-events: auto; cursor: grab;
+}
+.cat.dragging .hitbox { cursor: grabbing; }
+.cat.dragging .sprite { transform-origin: 50% 40%; animation: dangle .8s ease-in-out infinite; }
+.cat.happy .sprite { animation: hop .45s steps(4) 2; }
+.cat.thinking .fx::after {
+  content: "…"; position: absolute; left: 92px; top: 6px; font-size: 28px; font-weight: 900;
+  text-shadow: 0 0 3px #fff, 0 0 3px #fff; animation: blink 1s steps(2) infinite;
+}
+@keyframes blink { 50% { opacity: .2; } }
+
+@keyframes dangle { 0%,100% { rotate: -8deg; } 50% { rotate: 8deg; } }
+@keyframes hop { 0%,100% { translate: 0 0; } 50% { translate: 0 -18px; } }
+@keyframes pop { from { transform: scale(.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* эффекты: сердечки, Zzz, звёздочки */
+.fx { position: absolute; inset: 0; pointer-events: none; }
+.fx span {
+  position: absolute; font-weight: 800; font-size: 20px;
+  text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff;
+  animation: float-up 1.6s steps(8) forwards;
+}
+.fx .z { color: var(--ink); font-size: 22px; font-family: Georgia, serif; }
+@keyframes float-up {
+  from { opacity: 0; transform: translate(0, 0) scale(.6); }
+  20% { opacity: 1; }
+  to { opacity: 0; transform: translate(var(--dx, 10px), -60px) scale(1.2); }
+}
+
+/* ---------- Облачко ---------- */
+.bubble {
+  position: absolute; bottom: calc(128px * var(--k)); left: 50%;
+  transform: translateX(-50%);
+  width: max-content; max-width: 260px;
+  background: var(--paper); border: 3px solid var(--ink); border-radius: 16px;
+  box-shadow: 3px 3px 0 var(--yellow);
+  padding: 8px 12px; font-weight: 600;
+  white-space: pre-wrap; word-break: break-word;
+  animation: pop .25s ease-out;
+  cursor: default;
+}
+.bubble.guide { animation: none; max-width: min(340px, calc(100vw - 16px)); max-height: calc(100vh - 16px); overflow-y: auto; font-size: 19px; line-height: 1.35; padding: 12px 16px; }
+.bubble.below { bottom: auto; top: calc(140px + 14px); }
+.bubble.below::after { bottom: auto; top: -11px; transform: rotate(225deg); }
+.bubble .explain { font-weight: 500; font-size: 17px; margin-top: 6px; }
+.bubble-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.bubble-actions:empty { display: none; }
+.bubble-actions button {
+  min-height: 44px; padding: 6px 14px; font-size: 17px; font-weight: 700;
+  border: 2px solid var(--ink); border-radius: 12px; background: var(--soft); color: var(--ink);
+}
+.bubble-actions button.primary { background: var(--yellow); }
+.bubble.danger { border-color: #c0392b; box-shadow: 3px 3px 0 #c0392b; }
+
+/* ---------- Рамка-подсказка вокруг кнопки ---------- */
+.ring {
+  position: absolute; pointer-events: none; z-index: 5;
+  border: 5px solid var(--yellow); border-radius: 16px;
+  box-shadow: 0 0 0 3px var(--ink), 0 0 0 9999px rgba(27, 29, 34, .18);
+  animation: ring 1.1s ease-in-out infinite;
+}
+/* мигает, но не растёт: рамка всегда ровно вокруг кнопки, даже вокруг большого окна */
+@keyframes ring { 0%,100% { border-color: var(--yellow); } 50% { border-color: #fff3a6; } }
+.bubble::after {
+  content: ""; position: absolute; left: 50%; bottom: -11px; margin-left: -8px;
+  width: 14px; height: 14px; background: var(--paper);
+  border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
+  transform: rotate(45deg);
+}
+.badge {
+  position: absolute; z-index: 2;
+  top: calc(140px * (1 - var(--k)) - 6px); right: calc(75px * (1 - var(--k)) - 18px);
+  background: var(--yellow); border: 2px solid var(--ink); border-radius: 999px;
+  padding: 1px 8px; font-weight: 800; font-size: 12px; font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Панели ---------- */
+.panel {
+  position: absolute; width: 330px; max-height: calc(100vh - 16px); overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+  background: var(--paper); border: 3px solid var(--ink); border-radius: 18px;
+  box-shadow: 5px 5px 0 var(--ink);
+  padding: 12px; user-select: text;
+  animation: pop .2s ease-out;
+}
+.panel header { display: flex; align-items: center; gap: 8px; }
+.panel header b { font-size: 16px; }
+.panel header .icon:first-of-type { margin-left: auto; }
+.sub { color: var(--muted); font-size: 12px; }
+.icon { border: none; background: none; font-size: 16px; padding: 2px 6px; border-radius: 8px; }
+.icon:hover { background: var(--soft); }
+.row { display: flex; gap: 8px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+input, select {
+  font: inherit; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 10px;
+  background: var(--paper); color: var(--ink); width: 100%; outline: none;
+}
+input:focus, select:focus { box-shadow: 0 0 0 3px var(--yellow); }
+input[type=number] { width: 80px; }
+input[type=range] { padding: 0; border: none; accent-color: var(--ink); }
+label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 13px; }
+label.check { flex-direction: row; align-items: center; font-weight: 500; }
+label.check input { width: auto; accent-color: var(--ink); }
+.primary {
+  border: 2px solid var(--ink); background: var(--yellow); color: var(--ink);
+  border-radius: 10px; padding: 8px 14px; font-weight: 700; white-space: nowrap;
+}
+.primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+.ghost { border: 2px solid var(--ink); background: var(--paper); border-radius: 10px; padding: 8px 12px; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips button { border: 2px solid var(--ink); background: var(--soft); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+
+.chat-log { overflow-y: auto; display: flex; flex-direction: column; gap: 8px; min-height: 120px; max-height: 320px; padding-right: 4px; }
+.msg { flex-shrink: 0; padding: 8px 11px; border-radius: 14px; max-width: 85%; white-space: pre-wrap; word-break: break-word; }
+.msg.me { align-self: flex-end; background: var(--yellow); border: 2px solid var(--ink); }
+.msg.from-cat { align-self: flex-start; background: var(--soft); border: 2px solid var(--ink); }
+.msg.err { align-self: stretch; background: #fff0f0; border: 2px dashed #c0392b; }
+.msg.typing { color: var(--muted); font-style: italic; }
+
+.rem-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
+.rem-list li { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 2px solid var(--ink); border-radius: 10px; background: var(--soft); }
+.rem-list li .t { font-variant-numeric: tabular-nums; font-weight: 700; }
+.rem-list li .x { margin-left: auto; }
+.rem-list .empty { border: none; background: none; color: var(--muted); }
+
+.grow { flex: 1; }
+.group { display: flex; flex-direction: column; gap: 8px; padding-left: 10px; border-left: 3px solid var(--yellow); }
+.cal-list li { align-items: baseline; }
+.cal-list .day { border: none; background: none; padding: 4px 0 0; font-weight: 800; font-size: 12px; text-transform: uppercase; color: var(--muted); }
+.cal-list li.now { background: var(--yellow); }
+
+/* ---------- Окно «Чем помочь?» (крупно: текст от 18 px, кнопки от 44 px) ---------- */
+.panel.help { width: 400px; font-size: 18px; }
+.panel.help header b { font-size: 21px; }
+.tasks { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.big {
+  min-height: 52px; padding: 10px 14px; font-size: 18px; font-weight: 700; text-align: left;
+  border: 3px solid var(--ink); border-radius: 14px; background: var(--soft); color: var(--ink);
+}
+.big:hover, .big:focus-visible { background: var(--yellow); outline: none; }
+.big.lost { background: #ffe3e3; text-align: center; }
+.ask { display: flex; gap: 8px; align-items: stretch; }
+.ask input { font-size: 18px; min-height: 52px; }
+.ask .mic, .ask .go { min-width: 56px; text-align: center; padding: 0 10px; }
+.ask .mic.rec { background: #ff6b6b; animation: blink 1s steps(2) infinite; }
+.big-sub { font-size: 16px; color: var(--ink); }
+.skills summary { cursor: pointer; font-weight: 700; font-size: 17px; padding: 4px 0; }
+.skills ul { margin: 6px 0 0; padding-left: 22px; font-size: 17px; }
+.extras { display: flex; gap: 6px; justify-content: center; border-top: 2px dashed #ddd; padding-top: 8px; }
+.extras button {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 2px solid var(--ink); background: var(--soft); font-size: 18px; line-height: 1;
+}
+.extras button:hover { background: var(--yellow); }
+textarea { font: inherit; padding: 8px 10px; border: 2px solid var(--ink); border-radius: 10px; resize: vertical; width: 100%; }
+details.more summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+details.more label { margin-top: 8px; }
+
+/* File help keeps the same large controls as the main menu. */
+#panel-files { max-height: calc(100vh - 16px); overflow-y: auto; }
+#panel-files .big { text-align: left; }
+#panel-files small { display: block; font-size: 16px; font-weight: 500; margin-top: 4px; }
+.files-intro, .files-status { font-size: 18px; line-height: 1.45; margin: 10px 0 16px; }
+.files-status:empty { display: none; }
+#files-back { margin-top: 14px; background: white; }
+
+.files-status .big { display: block; width: 100%; margin-top: 8px; }
+
+/* A clamped card no longer points directly at the cat. */
+.bubble.detached::after { display: none; }

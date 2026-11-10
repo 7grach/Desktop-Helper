@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' file: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval' blob:; worker-src blob:; connect-src 'self' pushik: data: blob:" />
+  <title>Пушик</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="inspect.css" />
+  <link rel="stylesheet" href="light-blue.css" />
+  <link rel="stylesheet" href="playful.css" />
+  <link rel="stylesheet" href="home.css" />
+</head>
+<body>
+  <div id="cat" class="cat hit">
+    <div id="focus-badge" class="badge hidden"></div>
+    <div id="bubble" class="bubble hidden"><div id="bubble-text"></div><div id="bubble-actions" class="bubble-actions"></div></div>
+    <div id="body" class="body">
+      <canvas id="sprite" class="sprite"></canvas>
+      <div id="hitbox" class="hitbox"></div>
+      <div id="fx" class="fx"></div>
+    </div>
+  </div>
+
+  <!-- Рамка вокруг кнопки, на которую показывает кот. Клики проходят сквозь неё. -->
+  <div id="ring" class="ring hidden"></div>
+
+  <!-- Главное окно новичка: чем помочь -->
+  <section id="panel-help" class="panel help hit hidden">
+    <header><b data-i18n="help.title"></b><button class="icon" data-close data-i18n-title="close">✕</button></header>
+    <button type="button" id="inspect-element" class="big">Объясни, что это</button>
+    <button type="button" id="mic" class="big mic hidden" data-i18n-title="help.mic"></button>
+    <div id="mic-state" role="status" aria-live="polite" class="sub big-sub hidden"></div>
+    <form id="ask-form" class="ask hidden" aria-hidden="true">
+      <input id="ask-input" autocomplete="off" data-i18n-ph="help.ph" />
+      <button type="submit" class="big go" data-i18n-title="help.go">➤</button>
+    </form>
+    <div class="extras">
+      <button data-act="settings" data-i18n-title="menu.settings"></button>
+      <button data-act="lessons" data-i18n-title="menu.lessons"></button>
+      <button data-act="chat" data-i18n-title="menu.chat" class="hidden"></button>
+    </div>
+  </section>
+
+  <!-- Уроки: все обучалки, что пройдено и прогресс -->
+  <section id="panel-lessons" class="panel help lessons hit hidden">
+    <header><b data-i18n="les.title"></b><button class="icon" data-close data-i18n-title="close">✕</button></header>
+    <button id="open-skill-home" type="button" class="big">Домик освоенных навыков</button>
+    <div class="les-progress"><div id="les-bar" class="bar"></div></div>
+    <div id="les-count" class="sub big-sub"></div>
+    <details id="lesson-dropdown" class="lesson-dropdown">
+      <summary>Список уроков</summary>
+      <ul id="les-list" class="les-list"></ul>
+    </details>
+  </section>
+
+  <!-- Чат -->
+  <section id="panel-chat" class="panel hit hidden">
+    <header><b>Пуш</b><span class="sub" data-i18n="chat.sub"></span>
+      <button class="icon" data-reset data-i18n-title="chat.reset">↺</button>
+      <button class="icon" data-close data-i18n-title="close">✕</button></header>
+    <div id="chat-log" class="chat-log"></div>
+    <form id="chat-form" class="row">
+      <input id="chat-input" autocomplete="off" data-i18n-ph="chat.ph" />
+      <button type="submit" class="primary">➤</button>
+    </form>
+  </section>
+
+  <!-- Напоминания и календарь -->
+  <section id="panel-reminders" class="panel hit hidden">
+    <header><b data-i18n="rem.title"></b><button class="icon" data-close data-i18n-title="close">✕</button></header>
+    <form id="rem-form" class="col">
+      <input id="rem-text" data-i18n-ph="rem.ph" required />
+      <div class="row">
+        <input id="rem-min" type="number" min="1" value="15" />
+        <span class="sub" data-i18n="rem.min"></span>
+        <button type="submit" class="primary" data-i18n="rem.add"></button>
+      </div>
+      <div class="chips">
+        <button type="button" data-min="5">5</button>
+        <button type="button" data-min="15">15</button>
+        <button type="button" data-min="30">30</button>
+        <button type="button" data-min="60" data-i18n="rem.hour"></button>
+      </div>
+    </form>
+    <ul id="rem-list" class="rem-list"></ul>
+    <header><b data-i18n="cal.title"></b><span class="sub">📅</span></header>
+    <ul id="cal-list" class="rem-list cal-list"></ul>
+  </section>
+
+  <!-- Настройки -->
+  <section id="panel-settings" class="panel hit hidden">
+    <header><b data-i18n="set.title"></b><button class="icon" data-close data-i18n-title="close">✕</button></header>
+    <form id="settings-form" class="col">
+      <label><span data-i18n="set.name"></span><input name="userName" data-i18n-ph="set.namePh" /></label>
+      <label><span data-i18n="set.color"></span>
+        <select name="catColor">
+          <option value="white" data-i18n="set.cWhite"></option>
+          <option value="ginger" data-i18n="set.cGinger"></option>
+          <option value="black" data-i18n="set.cBlack"></option>
+        </select>
+      </label>
+      <label><span data-i18n="set.size"></span><input name="size" type="range" min="0.5" max="2" step="0.05" /></label>
+      <label><span data-i18n="set.uiScale"></span> <output id="ui-scale-value">100%</output><input name="uiScale" type="range" min="0.7" max="1.4" step="0.05" value="1" /></label>
+      <label class="check"><input name="speak" type="checkbox" /> <span data-i18n="set.speak"></span></label>
+      <label class="check"><input name="sound" type="checkbox" /> <span data-i18n="set.sound"></span></label>
+      <label class="check"><input name="autostart" type="checkbox" /> <span data-i18n="set.autostart"></span></label>
+      <div class="row">
+        <button type="submit" class="primary" data-i18n="set.save"></button>
+        <button type="button" id="quit" class="ghost" data-i18n="set.quit"></button>
+      </div>
+    </form>
+  </section>
+
+  <script src="i18n.js"></script>
+  <script src="sound.js"></script>
+  <script src="cats.js"></script>
+  <script src="voice.js"></script>
+  <script src="scenarios.js"></script>
+  <script src="ui-icons.js"></script>
+  <script src="app.js"></script>
+  <script src="coach.js"></script>
+  <script src="inspect.js"></script>
+  <script src="playful.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>

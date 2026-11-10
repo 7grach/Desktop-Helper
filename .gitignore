@@ -1,0 +1,10 @@
+node_modules/
+dist/
+__pycache__/
+.DS_Store
+assets/vosk/*.tar.gz
+assets/vosk/*.part
+team.json
+
+# Compiled by prestart / predist on macOS; included in packaged apps.
+assets/mac/locator-*

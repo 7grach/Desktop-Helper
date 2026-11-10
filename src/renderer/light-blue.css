@@ -1,0 +1,119 @@
+/* Agreed light-blue variant of the user's Figma design. */
+:root{--ink:#24251f;--yellow:#d5eaf8;--paper:#fffcf3;--soft:#f3f1e7;--muted:#75766b}
+.panel,.bubble.guide{background:var(--paper);border:calc(1px * var(--ui-scale, 1)) solid #fffef9;border-radius:calc(30px * var(--ui-scale, 1));box-shadow:0 calc(14px * var(--ui-scale, 1)) calc(25px * var(--ui-scale, 1)) #343d2926,0 calc(4px * var(--ui-scale, 1)) 0 #ecece2}
+.panel{padding:calc(24px * var(--ui-scale, 1));max-width:calc(100vw - calc(24px * var(--ui-scale, 1)));max-height:calc(100vh - calc(24px * var(--ui-scale, 1)));overflow:auto}
+.panel.help{width:calc(380px * var(--ui-scale, 1));font-size:calc(20px * var(--ui-scale, 1))}
+.panel.help header{margin-bottom:calc(12px * var(--ui-scale, 1))}
+.panel.help header b{font-size:calc(26px * var(--ui-scale, 1))}
+.panel header .icon[data-close]{display:grid;place-items:center;width:calc(48px * var(--ui-scale, 1));height:calc(48px * var(--ui-scale, 1));min-width:calc(48px * var(--ui-scale, 1));padding:0;border-radius:50%;background:#d5eaf8;border:calc(1px * var(--ui-scale, 1)) solid #eaf5fc;box-shadow:inset 0 calc(2px * var(--ui-scale, 1)) 0 #ffffff85}
+.panel button:focus-visible,.bubble button:focus-visible{outline:calc(2px * var(--ui-scale, 1)) solid #526d80;outline-offset:calc(3px * var(--ui-scale, 1))}
+.tasks{gap:calc(10px * var(--ui-scale, 1))}
+.tasks button{display:flex;align-items:center;gap:calc(12px * var(--ui-scale, 1))}
+.tasks button svg{flex-shrink:0}
+.big,.bubble-actions button{min-height:calc(48px * var(--ui-scale, 1));padding:calc(12px * var(--ui-scale, 1)) calc(16px * var(--ui-scale, 1));border:calc(1px * var(--ui-scale, 1)) solid #e8e5d8;border-radius:calc(24px * var(--ui-scale, 1));background:#f3f1e7;color:#24251f;box-shadow:0 calc(3px * var(--ui-scale, 1)) 0 #dcd9cb;font-size:calc(20px * var(--ui-scale, 1))}
+.big:hover,.bubble-actions button:hover{background:#e9f3fa}
+.big.lost{background:#f3f1e7}
+.ask .mic,.ask .go,.bubble-actions button.primary{background:#d5eaf8;border-color:#d5eaf8;box-shadow:inset 0 calc(2px * var(--ui-scale, 1)) 0 #ffffff85}
+.ask .mic,.ask .go{display:grid;place-items:center;border-radius:calc(24px * var(--ui-scale, 1))}
+.ask input{border:calc(1px * var(--ui-scale, 1)) solid #e8e5d8;background:#fffcf3;color:#24251f;border-radius:calc(18px * var(--ui-scale, 1));min-width:0}
+.bubble.guide{width:calc(380px * var(--ui-scale, 1));max-width:min(calc(380px * var(--ui-scale, 1)),calc(100vw - calc(24px * var(--ui-scale, 1))));padding:calc(24px * var(--ui-scale, 1));font-size:calc(22px * var(--ui-scale, 1));font-weight:500;line-height:1.4;max-height:calc(100vh - calc(24px * var(--ui-scale, 1)));overflow:auto}
+.bubble.guide::after{display:none}
+.bubble-actions{display:grid;gap:calc(12px * var(--ui-scale, 1));margin-top:calc(22px * var(--ui-scale, 1))}
+.bubble-actions button{width:100%}
+.bubble .explain{font-size:calc(18px * var(--ui-scale, 1));color:#75766b;margin-top:calc(14px * var(--ui-scale, 1))}
+.bubble.danger{border:calc(2px * var(--ui-scale, 1)) solid #b34b3e;box-shadow:0 calc(10px * var(--ui-scale, 1)) calc(24px * var(--ui-scale, 1)) #343d2926}
+.extras button{border-radius:calc(14px * var(--ui-scale, 1))}
+.ask .mic.rec{background:#f4b5b0}
+@media(prefers-reduced-motion:reduce){.ask .mic.rec{animation:none}}
+
+/* Consistent outline controls, replacing multicolour emoji. */
+#lost{display:flex;align-items:center;justify-content:center;gap:calc(12px * var(--ui-scale, 1))}
+#skills summary svg{vertical-align:middle;margin:0 calc(8px * var(--ui-scale, 1)) calc(3px * var(--ui-scale, 1)) calc(3px * var(--ui-scale, 1))}
+.extras{gap:calc(8px * var(--ui-scale, 1))}
+.extras button{display:grid;place-items:center;flex:1;min-width:0;min-height:calc(46px * var(--ui-scale, 1));padding:calc(8px * var(--ui-scale, 1));color:#59625c;background:#f3f1e7;border:calc(1px * var(--ui-scale, 1)) solid #dddccf;border-radius:calc(16px * var(--ui-scale, 1));box-shadow:0 calc(2px * var(--ui-scale, 1)) 0 #deded2}
+.extras button:hover{background:#d5eaf8;color:#24251f}
+.extras button svg{width:calc(22px * var(--ui-scale, 1));height:calc(22px * var(--ui-scale, 1))}
+
+.panel{font-size:calc(14px * var(--ui-scale,1))}
+.panel input,.panel select,.panel textarea{font-size:inherit}
+.panel header b{font-size:calc(16px * var(--ui-scale,1))}
+.panel.help header b{font-size:calc(26px * var(--ui-scale,1))}
+#ui-scale-value{font-variant-numeric:tabular-nums;color:#75766b}
+
+.extras:empty{display:none}
+#mic{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;background:#d5eaf8;border-color:#d5eaf8;box-shadow:inset 0 2px 0 #ffffff85}
+#mic.rec{background:#f4b5b0;border-color:#e6a39d}
+#mic-state{font-size:calc(18px * var(--ui-scale,1));line-height:1.4}
+
+.extras [data-act="chat"]{display:flex;align-items:center;justify-content:center;gap:10px;font-size:calc(18px * var(--ui-scale,1))}
+
+.extras [data-act="settings"]{display:flex;align-items:center;justify-content:center;gap:8px;font-size:calc(18px * var(--ui-scale,1))}
+
+/* Настройки и чат в том же стиле: мягкие поля и кнопки без чёрной обводки */
+.panel input:not([type=range]):not([type=checkbox]),.panel select,.panel textarea{border:calc(1px * var(--ui-scale,1)) solid #e8e5d8;border-radius:calc(18px * var(--ui-scale,1));background:#fffcf3;padding:calc(10px * var(--ui-scale,1)) calc(14px * var(--ui-scale,1))}
+.panel input:focus,.panel select:focus,.panel textarea:focus{box-shadow:0 0 0 calc(3px * var(--ui-scale,1)) #d5eaf8}
+.panel label{font-size:calc(15px * var(--ui-scale,1));font-weight:600}
+.panel label.check{font-weight:500;gap:calc(10px * var(--ui-scale,1))}
+.panel input[type=range],.panel label.check input{accent-color:#526d80}
+.panel .primary,.panel .ghost{min-height:calc(44px * var(--ui-scale,1));padding:calc(10px * var(--ui-scale,1)) calc(18px * var(--ui-scale,1));border-radius:calc(22px * var(--ui-scale,1));border:calc(1px * var(--ui-scale,1)) solid #e8e5d8;font-size:inherit}
+.panel .primary{background:#d5eaf8;border-color:#d5eaf8;box-shadow:inset 0 2px 0 #ffffff85}
+.panel .ghost{background:#f3f1e7;box-shadow:0 calc(3px * var(--ui-scale,1)) 0 #dcd9cb}
+#panel-settings .row{flex-wrap:wrap;margin-top:calc(6px * var(--ui-scale,1))}
+#panel-settings{width:calc(360px * var(--ui-scale,1))}
+
+/* Уроки */
+.lessons .les-progress{height:calc(12px * var(--ui-scale,1));border-radius:99px;background:#f3f1e7;border:calc(1px * var(--ui-scale,1)) solid #e8e5d8;overflow:hidden;margin:calc(4px * var(--ui-scale,1)) 0}
+.lessons .bar{height:100%;width:0;background:#a9cfe9;border-radius:99px;transition:width .4s ease}
+.lessons #les-count{font-size:calc(17px * var(--ui-scale,1));margin-bottom:calc(10px * var(--ui-scale,1))}
+.les-list{list-style:none;margin:0;padding:0;display:grid;gap:calc(10px * var(--ui-scale,1))}
+.les-list li{display:flex;align-items:center;gap:calc(12px * var(--ui-scale,1));padding:calc(10px * var(--ui-scale,1)) calc(12px * var(--ui-scale,1));border-radius:calc(20px * var(--ui-scale,1));background:#f3f1e7;border:calc(1px * var(--ui-scale,1)) solid #e8e5d8}
+.les-list li.done{background:#eef6fb;border-color:#d5eaf8}
+.les-list li.les-more{display:block;background:none;border:none;padding:calc(4px * var(--ui-scale,1)) calc(4px * var(--ui-scale,1));font-size:calc(14px * var(--ui-scale,1))}
+.les-icon{display:grid;place-items:center;flex-shrink:0;width:calc(40px * var(--ui-scale,1));height:calc(40px * var(--ui-scale,1));border-radius:50%;background:#fffcf3;color:#59625c}
+.les-list li.done .les-icon{background:#d5eaf8;color:#24251f}
+.les-text{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.les-text b{font-size:calc(17px * var(--ui-scale,1));line-height:1.25}
+.les-text .sub{font-size:calc(14px * var(--ui-scale,1))}
+.les-list .primary,.les-list .ghost{flex-shrink:0;min-height:calc(40px * var(--ui-scale,1));padding:calc(8px * var(--ui-scale,1)) calc(14px * var(--ui-scale,1))}
+.extras button{display:flex;align-items:center;justify-content:center;gap:8px;font-size:calc(17px * var(--ui-scale,1))}
+
+.extras button.pulse{background:#d5eaf8;color:#24251f;animation:les-pulse 1.2s ease-in-out infinite}
+@keyframes les-pulse{0%,100%{box-shadow:0 0 0 0 #a9cfe9}50%{box-shadow:0 0 0 calc(8px * var(--ui-scale,1)) #a9cfe900}}
+@media(prefers-reduced-motion:reduce){.extras button.pulse{animation:none;outline:3px solid #a9cfe9}}
+.lessons .les-progress,.les-list,.les-list li{flex-shrink:0}
+
+
+#inspect-element{display:flex;align-items:center;justify-content:center;gap:12px}
+#inspect-element svg,.extras button svg{flex-shrink:0;min-width:20px}
+.extras button[data-act="settings"]{display:flex;align-items:center;justify-content:center;gap:6px;padding-left:8px;padding-right:8px}
+.extras button[data-act="settings"] span{font-size:16px}
+
+/* «Назад» слева в шапке окна, такого же размера, как крестик */
+.panel header .icon.back{display:grid;place-items:center;width:calc(48px * var(--ui-scale, 1));height:calc(48px * var(--ui-scale, 1));min-width:calc(48px * var(--ui-scale, 1));padding:0;border-radius:50%;background:#f3f1e7;border:calc(1px * var(--ui-scale, 1)) solid #e8e5d8;margin-right:calc(8px * var(--ui-scale, 1))}
+.panel header:has(> .back){justify-content:flex-start}.panel header > .back + b{margin-right:auto;flex:1}
+
+.extras{display:flex;flex-wrap:wrap;gap:calc(8px * var(--ui-scale,1));align-items:stretch}
+.extras button[data-act]{width:auto;height:auto;min-width:0;min-height:calc(48px * var(--ui-scale,1));flex:1 1 calc(80px * var(--ui-scale,1));display:flex;align-items:center;justify-content:center;gap:calc(6px * var(--ui-scale,1));padding:calc(10px * var(--ui-scale,1));box-sizing:border-box}
+.extras button[data-act="settings"]{flex-basis:calc(120px * var(--ui-scale,1));padding:calc(10px * var(--ui-scale,1))}
+.extras button[data-act] span,.extras button[data-act="settings"] span{min-width:0;font-size:calc(15px * var(--ui-scale,1));line-height:1.25;overflow-wrap:anywhere;text-align:center}
+.extras button[data-act] svg{flex:0 0 calc(19px * var(--ui-scale,1));width:calc(19px * var(--ui-scale,1));height:calc(19px * var(--ui-scale,1));min-width:0}
+
+/* Panels stay inside Electron's work-area viewport. Extra content scrolls inside. */
+.panel{max-height:calc(100dvh - 24px);min-height:0;overflow-y:auto;overscroll-behavior:contain}
+.panel>*{flex-shrink:0}
+.panel>header{position:sticky;top:0;z-index:5;background:var(--paper)}
+#panel-chat .chat-log{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;overflow-wrap:anywhere}
+#panel-chat #chat-form{flex-shrink:0}
+#panel-chat #chat-input{min-width:0}
+.lesson-dropdown{flex-shrink:0}
+/* Больше места урокам, одна прокрутка всей панели вместо списка высотой 200px.
+   Вложенные ограничения создавали два скролла и оставляли видимыми лишь два урока. */
+#panel-lessons{
+  width:calc(560px * var(--ui-scale,1));
+  max-height:min(calc(820px * var(--ui-scale,1)),calc(100dvh - 32px));
+  overflow-y:auto;
+  gap:8px;
+}
+#panel-lessons>.lesson-dropdown{display:block;flex:0 0 auto;overflow:visible}
+#panel-lessons .les-list{max-height:none;overflow:visible;padding:2px 3px 12px}
+#panel-lessons>.big{min-height:44px;padding-top:10px;padding-bottom:10px}

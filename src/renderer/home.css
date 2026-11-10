@@ -1,0 +1,76 @@
+.skill-home,.success-postcard{position:fixed;z-index:6000;left:50%;top:50%;transform:translate(-50%,-50%);width:480px;max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);overflow:auto;border-radius:28px;padding:24px;background:#fffcf3;color:#24251f;box-shadow:0 18px 45px #25384833;font:18px/1.4 var(--font-ui)}
+.skill-home header,.success-postcard header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.skill-home h2,.success-postcard h2{font-size:25px;margin:0}.skill-home p{color:#75766b}
+.home-close{border:0;border-radius:50%;background:#d5eaf8;width:44px;height:44px;flex-shrink:0;font:24px var(--font-ui);cursor:pointer}
+.home-room{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:30px 16px 22px;min-height:260px;border:6px solid #ece4d5;border-radius:22px;background:linear-gradient(#e8f2f8 0 75%,#e5d9c3 75%);box-shadow:inset 0 5px 15px #b5c2be22}
+.home-room:before{content:'';position:absolute;width:52px;height:52px;top:12px;right:15px;border:5px solid #fffcf3;border-radius:18px;background:linear-gradient(90deg,transparent 46%,#fffcf3 46% 54%,transparent 54%),linear-gradient(transparent 46%,#fffcf3 46% 54%,transparent 54%),#b9def2;opacity:.6;pointer-events:none}
+.home-object{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:8px;min-height:110px;padding:10px 5px;border:0;border-bottom:5px solid #c6b595;border-radius:14px;background:#fffcf3cf;color:#45565b;font:15px/1.25 var(--font-ui);cursor:pointer;overflow-wrap:anywhere;box-shadow:0 4px 0 #d8c9ad55}
+.home-object svg{width:36px;height:36px;flex-shrink:0}.home-object:hover{background:#fffefb;translate:0 -3px}.home-object:focus-visible,.home-action:focus-visible{outline:3px solid #7195ac;outline-offset:3px}
+.home-empty{grid-column:1 / -1;align-self:center;text-align:center;padding:30px 10px}.home-detail{padding:16px 0 0}.home-detail h3{font-size:20px;margin:0 0 8px}.home-action{display:block;width:100%;min-height:48px;margin-top:12px;border:1px solid #e3e1d6;border-radius:22px;padding:12px;background:#d5eaf8;color:#24251f;font:18px var(--font-ui);cursor:pointer}
+.success-postcard canvas{display:block;width:100%;height:auto;border-radius:20px;border:1px solid #e8e2d5}.postcard-status{font-size:16px;color:#687567;margin-top:10px}
+@media(max-width:380px){.home-room{grid-template-columns:repeat(2,minmax(0,1fr));padding:18px 10px}.skill-home,.success-postcard{padding:16px}}
+@media(prefers-reduced-motion:reduce){.home-object:hover{translate:none}}
+
+.home-toy-mouse{width:72px;height:78px;object-fit:contain;display:block;border-radius:10px}
+
+/* Transparent cute item atlas: each item occupies its own centered grid cell. */
+.home-object{justify-content:center;min-height:160px;gap:6px;padding:12px 6px}
+.home-item-art{display:block;width:104px;max-width:100%;aspect-ratio:1;flex-shrink:0;background-image:url('../../assets/achievements/cozy-items.png');background-size:300% 300%;background-repeat:no-repeat;background-position:100% 50%}
+.home-art-mouse{background-position:0% 0%}.home-art-call{background-position:50% 0%}.home-art-photos{background-position:100% 0%}
+.home-art-search{background-position:0% 50%}.home-art-type{background-position:50% 50%}.home-art-book{background-position:100% 50%}.home-art-volume{background-position:0% 100%}
+.home-room{align-items:start;grid-auto-rows:auto;padding-top:24px}
+.home-object>span:last-child{text-align:center;line-height:1.3}
+
+.lesson-dropdown{border:1px solid #e3e1d6;border-radius:20px;background:#f3f1e7;padding:0 14px}
+.lesson-dropdown>summary{min-height:48px;padding:12px 4px;cursor:pointer;font-size:18px;font-weight:600;color:#45565b}
+.lesson-dropdown>summary:focus-visible{outline:2px solid #7195ac;border-radius:10px}
+.lesson-dropdown[open]{background:#fffcf3}
+.lesson-dropdown .les-list{margin-top:6px}
+
+/* A small, furnished room. Objects occupy fixed, separate places. */
+.skill-home{width:620px;padding:26px}
+.room-caption{font-size:14px;letter-spacing:.02em;color:#83959b;margin:0 0 12px}
+.home-room{display:block;container-type:inline-size;width:100%;aspect-ratio:1.3;min-height:0;padding:0;border:7px solid #e6ddce;border-radius:28px;overflow:hidden;background:repeating-linear-gradient(90deg,#e9f3f6 0 23px,#e4eff3 23px 25px);box-shadow:inset 0 12px 30px #8aa7ab15}
+.home-room:before{display:none}
+.room-decor{position:absolute;inset:0;pointer-events:none}
+.room-floor{position:absolute;inset:68% 0 0;background:repeating-linear-gradient(0deg,transparent 0 36px,#cfbfa744 36px 38px),repeating-linear-gradient(90deg,#e6d6bc 0 95px,#ddcaad 95px 97px);border-top:8px solid #f9f4e8;box-shadow:0 -2px 0 #bfcac5}
+.room-window{position:absolute;top:8%;right:8%;width:23%;height:31%;border:7px solid #fffaf0;border-radius:35% 35% 8% 8%;background:linear-gradient(#b8deed,#e5f3f7);box-shadow:0 6px 0 #d1c6b5,0 10px 15px #7f9eab14;display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:0;overflow:hidden}
+.room-window:before{content:'';position:absolute;width:20%;aspect-ratio:1;right:15%;top:15%;border-radius:50%;background:#fff2bf;box-shadow:0 0 15px #fff5be}
+.room-window:after{content:'';position:absolute;left:8%;top:56%;width:45%;height:11%;border-radius:50%;background:#ffffffa0}
+.room-window i{position:relative;border-right:3px solid #fffaf0;border-bottom:3px solid #fffaf0}
+.room-shelf{position:absolute;height:3%;border-radius:4px;background:#c8aa80;border-top:4px solid #f1dfbf;box-shadow:0 5px 0 #af926c33,0 10px 12px #5d72781c}
+.room-shelf-top{left:8%;top:30%;width:43%}.room-shelf-middle{left:7%;top:55%;width:31%}
+.room-rug{position:absolute;left:8%;top:77%;width:44%;height:17%;border-radius:50%;background:#b6d7df;border:6px solid #d6e9eb;box-shadow:0 5px 0 #937d6019,inset 0 0 0 2px #9abac533;transform:rotate(-5deg)}
+.room-desk{position:absolute;left:47%;top:61%;width:44%;height:5%;border-radius:8px;background:#c5a27c;border-top:5px solid #f0dcc0;box-shadow:0 4px 0 #a5886833}
+.room-desk i{position:absolute;top:100%;width:7%;height:24cqw;background:#ba9670;border-radius:0 0 5px 5px}.room-desk i:first-child{left:7%}.room-desk i:last-child{right:7%}
+.room-plant{position:absolute;left:80%;top:43%;width:10%;height:18%}.room-plant b{position:absolute;left:10%;bottom:0;width:80%;height:44%;border-radius:5px 5px 12px 12px;background:#d6a18c;border-top:5px solid #ebbdab}.room-plant i{position:absolute;width:50%;height:38%;background:#92b7a4;border-radius:5px 80%;bottom:36%;left:20%;transform:rotate(30deg)}.room-plant i:nth-child(2){left:45%;bottom:48%;transform:rotate(105deg)}.room-plant i:nth-child(3){left:8%;bottom:60%;transform:rotate(15deg)}
+.room-sleeping-cat{position:absolute;left:65%;top:78%;width:25%;aspect-ratio:1;background-image:url('../../assets/achievements/cozy-items.png');background-size:300% 300%;background-position:100% 100%;opacity:.97}
+.room-sunlight{position:absolute;right:1%;top:40%;width:30%;height:50%;background:linear-gradient(160deg,#fff8cf26,transparent);transform:skew(-15deg);filter:blur(6px)}
+.home-room .home-object{position:absolute;width:23%;min-height:0;padding:0;gap:0;background:transparent!important;border:0;border-radius:18px;box-shadow:none;display:block;aspect-ratio:1;z-index:2;transition:transform .18s;overflow:visible}
+.home-room .home-item-art{width:100%;max-width:none;aspect-ratio:1;filter:drop-shadow(0 5px 3px #6f614523);transition:filter .18s}
+.home-room .home-object:hover{translate:0 0;transform:translateY(-4px)}
+.home-room .home-object.selected .home-item-art{filter:drop-shadow(0 0 6px #74bde8aa)}
+.home-room .home-object:focus-visible{outline:3px solid #6f9bb0;outline-offset:0}
+.room-object-photos{left:7%;top:2%;width:24%!important}
+.room-object-search{left:30%;top:7%}
+.room-object-volume{left:9%;top:29%;width:22%!important}
+.room-object-type{left:44%;top:34%;width:25%!important}
+.room-object-call{left:65%;top:39%;width:20%!important}
+.room-object-mouse{left:17%;top:66%;width:23%!important}
+.room-object-label{position:absolute;left:50%;bottom:-4px;transform:translate(-50%,100%);width:max-content;max-width:160px;padding:5px 8px;border-radius:9px;background:#fffcf3f5;color:#45565b;box-shadow:0 3px 9px #283a4720;font:13px/1.2 var(--font-ui);opacity:0;pointer-events:none;z-index:9}
+.home-object:hover .room-object-label,.home-object:focus-visible .room-object-label,.home-object.selected .room-object-label{opacity:1}
+.room-object-count{position:absolute;top:10%;right:0;display:grid;place-items:center;width:25px;height:25px;border:2px solid #fffcf3;border-radius:50%;background:#d5eaf8;color:#445d6b;font:bold 12px var(--font-ui);box-shadow:0 2px 5px #5673}
+.home-secondary{background:#f3f1e7;font-size:17px}
+.home-empty{position:absolute;left:8%;right:8%;top:34%;z-index:3;padding:18px;border-radius:18px;background:#fffcf3e8;font-size:17px;color:#667981;box-shadow:0 5px 12px #5671}
+@media(max-width:430px){.skill-home{padding:16px}.home-room{border-width:5px;border-radius:20px}.room-window{border-width:4px}.room-object-count{width:21px;height:21px;font-size:11px}.room-object-label{font-size:11px;max-width:110px}.room-shelf{border-top-width:2px}.room-floor{border-top-width:5px}}
+@media(prefers-reduced-motion:reduce){.home-room .home-object,.home-room .home-item-art{transition:none}.home-room .home-object:hover{transform:none}}
+
+.room-sleeping-cat{left:68%;top:70%;width:22%}
+
+.room-object-volume{top:33%}
+
+/* One room-level label: clamped to the interior, never behind the floor or window. */
+.room-tooltip{position:absolute;z-index:30;max-width:calc(100% - 20px);width:max-content;box-sizing:border-box;padding:7px 11px;border-radius:12px;background:#fffcf3;color:#45565b;box-shadow:0 3px 12px #354c6226;font:14px/1.3 var(--font-ui);text-align:center;overflow-wrap:anywhere;pointer-events:none}
+.home-room .home-object:hover{transform:none}
+.home-room .home-object:hover .home-item-art{filter:drop-shadow(0 0 5px #9bc9e577)}
+@media(max-width:430px){.room-tooltip{font-size:12px;padding:6px 9px}}

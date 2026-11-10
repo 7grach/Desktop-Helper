@@ -1,0 +1,63 @@
+{
+  "name": "pushik",
+  "productName": "Пушик",
+  "version": "0.9.0",
+  "description": "Кот Пуш: десктопный питомец-помощник, который гуляет по рабочему столу",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "postinstall": "node tools/fetch-vosk-model.js",
+    "vosk": "node tools/fetch-vosk-model.js",
+    "prestart": "node tools/build-mac-locator.js",
+    "predist": "node tools/build-mac-locator.js",
+    "predist:mac": "node tools/build-mac-locator.js"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.prettyw1ld.pushik",
+    "productName": "Пушик",
+    "files": [
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png",
+      "category": "public.app-category.utilities",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Пушик слушает, что ты хочешь сделать, когда ты нажимаешь на микрофон.",
+        "NSScreenCaptureUsageDescription": "Пушик смотрит на экран, чтобы показать лапкой, куда нажать."
+      }
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.png"
+    },
+    "extraResources": [
+      {
+        "from": "team.json",
+        "to": "team.json",
+        "filter": [
+          "team.json"
+        ]
+      }
+    ],
+    "asarUnpack": [
+      "assets/mac/**"
+    ]
+  },
+  "author": "prettyw1ld",
+  "license": "MIT",
+  "repository": "https://github.com/prettyw1ld/Desktop-Helper",
+  "dependencies": {
+    "node-ical": "^0.27.3",
+    "vosk-browser": "^0.0.8"
+  }
+}

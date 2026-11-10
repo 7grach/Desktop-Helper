@@ -1,0 +1,9 @@
+.inspect-picker{position:fixed;inset:0;z-index:10000;cursor:crosshair;background:#20374612;touch-action:none}
+.inspect-picker .inspect-tip{position:absolute;top:22px;left:50%;transform:translateX(-50%);max-width:calc(100vw - 32px);padding:14px 20px;border-radius:18px;background:#fffcf3;color:#24251f;box-shadow:0 6px 24px #0002;font:18px/1.4 'Segoe UI',sans-serif;pointer-events:none}
+.inspect-picker .inspect-box{position:absolute;border:3px solid #77b6df;border-radius:8px;background:#b5ddf52b;pointer-events:none}
+#inspect-element{background:#d5eaf8;color:#24251f}
+#ring.inspect-highlight{border:3px solid #77b6df;background:#b5ddf518;box-shadow:0 0 0 5px #d5eaf84d;pointer-events:none}
+
+.inspect-explanation .bubble-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.inspect-explanation .bubble-actions button{min-width:0;font-size:16px;padding:10px;white-space:normal}
+.inspect-explanation .bubble-actions button.primary{grid-column:1 / -1}

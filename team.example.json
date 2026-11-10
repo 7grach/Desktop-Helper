@@ -1,0 +1,5 @@
+{
+  "provider": "groq",
+  "apiKey": "gsk_… бесплатный ключ с console.groq.com → API Keys. Один ключ даёт чат, зрение и голос",
+  "voice": "whisper"
+}
