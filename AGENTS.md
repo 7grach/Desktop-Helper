@@ -7,7 +7,7 @@
 - Electron 33, чистый JavaScript, без сборки; приложение запускается из `src/`.
 - Node.js 18 или новее.
 - Запуск: `npm start`.
-- Тесты: `node --test tools/test-file-help.js`, `node --test tools/test-screen-capture.js`, `node --test tools/test-ai-settings.js`.
+- Тесты: `npm test` (24 проверки: уроки, настройки ИИ, захват экрана).
 
 ## Перед началом работы
 
@@ -75,4 +75,4 @@ npm start
 node node_modules\electron\install.js
 ```
 
-Известная проблема: `tools/test-ai-settings.js` на Windows даёт 5 падений из-за POSIX-путей в тестовом харнессе. Это исправляется в задаче `A-1`; до неё надёжные проверки — `test-file-help.js` и `test-screen-capture.js`.
+`npm test` запускает все три набора. На Windows все 24 проверки проходят; те же проверки идут в CI на Ubuntu, Windows и macOS (`.github/workflows/test.yml`).
