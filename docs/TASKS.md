@@ -35,7 +35,7 @@
 
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
-| B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | REVIEW | `agent-b/B-1` | PR #1, commit `7b1bdd0`; `test-file-help` 10/10, `test-screen-capture` 8/8; `test-ai-settings` не запускался — известное падение на Windows (A-1); `package.json` не тронут |
+| B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | REVIEW | `agent-b/B-1` | PR #1, commit `a7bf128`; `npm test` 24/24, включая `test-ai-settings` после A-1; `package.json` не тронут |
 | B-2 | Тесты на «Домик навыков» и открытку | BACKLOG | — | `src/renderer/home.js`, `src/renderer/playful.js`, `tools/`; после A-1 |
 
 ## Ближайший порядок
