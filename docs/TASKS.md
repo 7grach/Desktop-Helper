@@ -24,8 +24,10 @@
 
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
-| A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | TODO | — | `tools/test-ai-settings.js`: передать `path.posix` в песочницу; добавить `test`; CI с `npm ci --ignore-scripts`; URL `7grach/Desktop-Helper` |
-| A-2 | Продуктовая фича (кандидат: новый урок или защита от мошенников) | BACKLOG | — | Согласовать с пользователем |
+| A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | DONE | `agent-a/A-1` | `efd2799` + `b61243d`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22) — success; URL `7grach/Desktop-Helper`; 24/24 pass |
+| A-2 | Защита от мошенников: детект AnyDesk/TeamViewer/RustDesk и предупреждение кота | DONE | `agent-a/A-2` | PR #4 merged: `bd2b222`; `src/remote-watch.js`, main/preload/app/i18n, `tools/test-remote-watch.js`; `npm test` 66/66; UI проверен в браузере; список тестов в `package.json` объединён |
+
+> Для B-1: A-1 уже в `develop`. После rebase запускай `npm test` — все 24 проверки проходят, включая `test-ai-settings.js`.
 
 ## Агент B
 
@@ -33,13 +35,17 @@
 
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
-| B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | TODO | — | `README.md`, `DEMO.md`; `package.json` не трогать — он в A-1 |
-| B-2 | Тесты на «Домик навыков» и открытку | BACKLOG | — | `src/renderer/home.js`, `src/renderer/playful.js`, `tools/`; после A-1 |
+| B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | DONE | `agent-b/B-1` | PR #1 merged: `8b765fa`; `npm test` 24/24, включая `test-ai-settings` после A-1; `package.json` не тронут |
+| B-2 | Тесты на «Домик навыков» и открытку | DONE | `agent-b/B-2` | PR #2 merged: `376c9d7`; `npm test` 43/43 (24 старых + 19 новых) |
+| B-3 | Тесты календаря и напоминаний | DONE | `agent-b/B-3` | PR #3 merged: `6c7aa5d`; `tools/test-calendar.js` — 18 тестов, `npm test` 61/61; без сети, `src/` не менялся |
 
 ## Ближайший порядок
 
-1. `A-1` — инфраструктура тестов и CI.
-2. `B-1` — документация; можно параллельно с A-1, файлы не пересекаются.
-3. После `A-1`: `B-2` и продуктовые задачи.
+1. `A-1` — инфраструктура тестов и CI. DONE.
+2. `B-1` — документация. DONE.
+3. `B-2` — тесты «Домика навыков» и открытки. DONE.
+4. `B-3` — тесты календаря и напоминаний. DONE.
+5. `A-2` — защита от мошенников. DONE, 66/66.
+6. Все задачи закрыты. `main` не трогаем до отдельной команды пользователя.
 
 **Задачи в `TODO` не означают разрешение начинать: старт — по команде пользователя.**

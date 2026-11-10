@@ -11,6 +11,7 @@
     "dist:mac": "electron-builder --mac",
     "postinstall": "node tools/fetch-vosk-model.js",
     "vosk": "node tools/fetch-vosk-model.js",
+    "test": "node --test tools/test-file-help.js tools/test-ai-settings.js tools/test-screen-capture.js tools/test-home.js tools/test-playful.js tools/test-calendar.js tools/test-remote-watch.js",
     "prestart": "node tools/build-mac-locator.js",
     "predist": "node tools/build-mac-locator.js",
     "predist:mac": "node tools/build-mac-locator.js"
@@ -55,7 +56,7 @@
   },
   "author": "prettyw1ld",
   "license": "MIT",
-  "repository": "https://github.com/prettyw1ld/Desktop-Helper",
+  "repository": "https://github.com/7grach/Desktop-Helper",
   "dependencies": {
     "node-ical": "^0.27.3",
     "vosk-browser": "^0.0.8"

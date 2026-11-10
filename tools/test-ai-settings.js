@@ -3,14 +3,19 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const path = require('node:path');
+const hostPath = require('node:path');
+
+// The app is tested as if it runs on a POSIX system: main.js uses path.join
+// with absolute /app and /data paths. The host may be Windows, so keep its
+// native path module for reading files and give the sandbox path.posix.
+const sandboxPath = hostPath.posix;
 
 // Run the real settings functions without launching the desktop overlay or contacting a service.
 function harness(teamConfig = {}, encryption = true) {
   let disk;
-  const source = fs.readFileSync(path.join(__dirname, '../src/main.js'), 'utf8');
+  const source = fs.readFileSync(hostPath.join(__dirname, '../src/main.js'), 'utf8');
   const context = vm.createContext({
-    path, Buffer, __dirname: '/app/src', process: { platform: 'darwin', resourcesPath: '/resources' },
+    path: sandboxPath, Buffer, __dirname: '/app/src', process: { platform: 'darwin', resourcesPath: '/resources' },
     fs: {
       readFileSync(file) {
         if (file === '/app/team.json') return JSON.stringify(teamConfig);

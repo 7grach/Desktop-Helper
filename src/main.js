@@ -10,6 +10,7 @@ const calendar = require('./calendar');
 const windowsWatch = require('./windows');
 const guide = require('./guide');
 const locate = require('./locate');
+const remoteWatch = require('./remote-watch');
 const files = require('./files');
 const stt = require('./stt');
 const I18N = require('./renderer/i18n');
@@ -69,6 +70,7 @@ const DEFAULTS = {
   onboarded: false,        // пройден ли тренажёр мыши при первом запуске
   contact: '',             // кому чаще всего звонят: имя, как в WhatsApp (для сценария «Позвонить»)
   voice: 'offline',        // offline = Vosk в самом приложении, whisper = сервис по ключу
+  trustedRemote: [],       // программы удалённого доступа, про которые человек сказал «это свои»
 };
 const SECRETS = ['apiKey', 'calendarUrl', 'sttKey', 'groqKey'];
 const settingsFile = () => path.join(app.getPath('userData'), 'settings.json');
@@ -263,6 +265,14 @@ function startWindowsWatch() {
   }, toDip);
 }
 
+// ---------- Программы удалённого доступа ----------
+function startRemoteWatch() {
+  remoteWatch.start((app) => {
+    if ((settings.trustedRemote || []).includes(app)) return;
+    win?.webContents.send('remote-app', app);
+  });
+}
+
 // ---------- Окно ----------
 // Одно прозрачное окно на всю рабочую область основного экрана.
 // Клики проходят сквозь пустые места; окно ловит мышь только над котом и панелями.
@@ -308,6 +318,7 @@ function createWindow() {
     loadReminders();
     startCalendar();
     startWindowsWatch();
+    startRemoteWatch();
   });
 
   const fitToScreen = () => win && win.setBounds(screen.getPrimaryDisplay().workArea);
@@ -558,6 +569,7 @@ if (!app.requestSingleInstanceLock()) {
     guide.unwatch();
     locate.stop();
     windowsWatch.stop();
+    remoteWatch.stop();
   });
   app.on('window-all-closed', () => app.quit());
 }

@@ -7,6 +7,9 @@ const fsp = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 
+const ROOT = path.join(__dirname, '..');
+const readSource = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
+
 function coachHarness() {
   const timers = new Map(); let sequence = 0;
   const element = () => ({ addEventListener() {}, appendChild() {}, textContent: '' });
@@ -23,9 +26,9 @@ function coachHarness() {
     setTimeout: (fn) => { timers.set(++sequence, fn); return sequence; }, clearTimeout: (id) => timers.delete(id),
     setInterval: (fn) => { timers.set(++sequence, fn); return sequence; }, clearInterval: (id) => timers.delete(id),
   });
-  vm.runInContext(fs.readFileSync('src/renderer/scenarios.js', 'utf8'), c);
+  vm.runInContext(readSource('src/renderer/scenarios.js'), c);
   c.Scenarios = c.window.Scenarios;
-  vm.runInContext(fs.readFileSync('src/renderer/coach.js', 'utf8'), c);
+  vm.runInContext(readSource('src/renderer/coach.js'), c);
   return { c, run: (code) => vm.runInContext(code, c), timers };
 }
 
@@ -93,7 +96,7 @@ test('practice files survive repeated setup; folder actions reject arbitrary pat
     dialog: { showOpenDialog: async () => ({ canceled: true, filePaths: [] }) },
   };
   const c = vm.createContext({ module: { exports: {} }, require: (name) => name === 'electron' ? electron : require(name), process });
-  vm.runInContext(fs.readFileSync('src/files.js', 'utf8'), c);
+  vm.runInContext(readSource('src/files.js'), c);
   const { action } = c.module.exports;
   try {
     assert.equal((await action({ op: 'open', place: 'practice' })).ok, true);
@@ -168,7 +171,7 @@ test('dragging the cat preserves the lesson and restores its current instruction
   c.placeBubble = () => {};
   c.onCatClick = () => {};
   c.cancelPointGaze = () => {};
-  const source = fs.readFileSync('src/renderer/app.js', 'utf8');
+  const source = readSource('src/renderer/app.js');
   vm.runInContext(source.slice(source.indexOf('let press = null;'), source.indexOf('let clicks = [];')), c);
   run("runScenario(Scenarios.list.find(s => s.id === 'files-learn'))");
   await new Promise(setImmediate);
@@ -191,7 +194,7 @@ test('dragging the cat preserves the lesson and restores its current instruction
 });
 
 test('instruction stays inside the viewport as the cat moves from top to bottom', () => {
-  const source = fs.readFileSync('src/renderer/app.js', 'utf8');
+  const source = readSource('src/renderer/app.js');
   const classes = new Set();
   const c = vm.createContext({
     cat: { x: 20, y: 0 }, CAT_W: 150, CAT_H: 140, size: () => 1,

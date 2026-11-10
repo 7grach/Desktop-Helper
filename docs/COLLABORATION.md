@@ -91,8 +91,7 @@ node --test tools/test-screen-capture.js
    ```powershell
    git fetch origin
    git rebase origin/develop
-   node --test tools/test-file-help.js
-   node --test tools/test-screen-capture.js
+   npm test
    ```
 6. Запушить ветку:
    ```powershell
@@ -101,6 +100,17 @@ node --test tools/test-screen-capture.js
 7. Поставить `REVIEW`, указать commit и результаты проверки.
 8. Агент A проверяет PR, мержит в `develop`, пушит `develop`, ставит `DONE`.
 9. Агент B после `DONE` делает `git fetch origin` и `git rebase origin/develop` перед следующей задачей.
+
+## Цикл Агента B
+
+Агент B не завершает работу после одной задачи:
+
+1. Закончил задачу → `fetch`/`rebase` на `origin/develop`.
+2. Проверил `docs/TASKS.md`: есть следующая `TODO` в секции B → взял её.
+3. Задач нет → спит (sleep) и периодически проверяет `origin/develop`; новые задачи появятся после того, как Агент A добавит их в `docs/TASKS.md`.
+4. **Сам не завершает сессию.** Единственная команда на завершение — **«заверши работу»** от пользователя или Агента A. После неё B не берёт новые задачи и останавливается.
+
+Агент A добавляет B-задачи в `docs/TASKS.md` и пушит `develop`; B увидит их после `git fetch origin`.
 
 ## Статусы в docs/TASKS.md
 
