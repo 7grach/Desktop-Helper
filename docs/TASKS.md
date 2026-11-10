@@ -35,7 +35,7 @@
 
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
-| B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | TODO | — | `README.md`, `DEMO.md`; `package.json` не трогать — он в A-1 |
+| B-1 | README: новый URL репозитория, npm 12/Electron, раздел тестов | IN PROGRESS | `agent-b/B-1` | 10.11.2026 — старт; `README.md`, `DEMO.md`; `package.json` не трогать — он в A-1 |
 | B-2 | Тесты на «Домик навыков» и открытку | BACKLOG | — | `src/renderer/home.js`, `src/renderer/playful.js`, `tools/`; после A-1 |
 
 ## Ближайший порядок
