@@ -25,7 +25,7 @@
 | ID | Задача | Статус | Ветка | Коммит / заметки |
 |---|---|---|---|---|
 | A-1 | Windows-тесты, `npm test`, CI, repository URL в `package.json` | DONE | `agent-a/A-1` | `efd2799` + `b61243d`: `path.posix` в песочнице; чтение `src/` от `__dirname`; `npm test`; CI (Ubuntu/Windows/macOS, Node 22) — success; URL `7grach/Desktop-Helper`; 24/24 pass |
-| A-2 | Защита от мошенников: детект AnyDesk/TeamViewer/RustDesk и предупреждение кота | REVIEW | `agent-a/A-2` | commit `ac0fdd7`; `src/remote-watch.js`, main/preload/app/i18n, `tools/test-remote-watch.js`; после rebase на B-3 `npm test` 66/66; UI проверен в браузере; список тестов в `package.json` объединён |
+| A-2 | Защита от мошенников: детект AnyDesk/TeamViewer/RustDesk и предупреждение кота | DONE | `agent-a/A-2` | PR #4 merged: `bd2b222`; `src/remote-watch.js`, main/preload/app/i18n, `tools/test-remote-watch.js`; `npm test` 66/66; UI проверен в браузере; список тестов в `package.json` объединён |
 
 > Для B-1: A-1 уже в `develop`. После rebase запускай `npm test` — все 24 проверки проходят, включая `test-ai-settings.js`.
 
@@ -45,6 +45,7 @@
 2. `B-1` — документация. DONE.
 3. `B-2` — тесты «Домика навыков» и открытки. DONE.
 4. `B-3` — тесты календаря и напоминаний. DONE.
-5. `A-2` — защита от мошенников. REVIEW, 66/66; осталось смержить в `develop`.
+5. `A-2` — защита от мошенников. DONE, 66/66.
+6. Все задачи закрыты. `main` не трогаем до отдельной команды пользователя.
 
 **Задачи в `TODO` не означают разрешение начинать: старт — по команде пользователя.**
